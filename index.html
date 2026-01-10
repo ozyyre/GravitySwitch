@@ -12,12 +12,17 @@
     <div class="container text-center mt-3">
         <h1>Gravity Switch</h1>
         <p>Klikni mezerníkem pro změnu směru gravitace!</p>
-        <p>Skóre: <span id="score">0</span></p>
+        <p>Skóre: <span id="score">0</span> | Nejlepší skóre: <span id="bestScore">0</span></p>
+        <button id="restartBtn" class="btn btn-success mt-2">Restart</button>
     </div>
 
-    <!-- JS soubory -->
+    <!-- Načtení tříd ve správném pořadí -->
     <script src="classes/Player.js"></script>
     <script src="classes/Obstacle.js"></script>
+    <script src="classes/BackgroundObject.js"></script>
+    <script src="classes/EnemyShip.js"></script>
+
+    <!-- Hlavní skript -->
     <script src="script.js"></script>
 </body>
 </html>

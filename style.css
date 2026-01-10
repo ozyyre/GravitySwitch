@@ -1,19 +1,21 @@
 body {
     margin: 0;
+    padding: 0;
+    overflow: hidden; /* zabrání scrollování stránky při hře */
+    background-color: #000; /* tmavé pozadí */
     font-family: 'Arial', sans-serif;
 }
 
-canvas {
-    display: block;
-    background: #222;
-    margin: 0 auto;
-}
-
 .container {
+    z-index: 10; /* aby text a tlačítka byly nad hrou */
     position: relative;
-    z-index: 1; /* HTML nad canvas */
 }
 
-h1, p {
-    color: #00ff00;
+#score, #bestScore {
+    font-weight: bold;
+    color: #0f0; /* zelené číslo skóre */
+}
+
+#restartBtn {
+    margin-top: 10px;
 }
