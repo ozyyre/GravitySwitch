@@ -1,12 +1,11 @@
-let player;
+let player, enemy;
 let gravity = 0.5;
 let score = 0;
 let bestScore = 0;
+let meteorCount = 0;
 let obstacles = [];
 let backgroundObjects = [];
 let rocketImg, meteorImg, enemyImg;
-let enemy;
-let meteorCount = 0;
 
 function preload() {
     rocketImg = loadImage('images/rocketImg.png'); 
@@ -15,70 +14,66 @@ function preload() {
 }
 
 function setup() {
-    const container = document.querySelector('.container');
-    const topOffset = container ? container.offsetHeight + 20 : 80;
-    createCanvas(windowWidth, windowHeight - topOffset);
-
+    createCanvas(windowWidth, windowHeight - 100);
     player = new Player();
-    obstacles.push(new Obstacle());
-    for (let i = 0; i < 100; i++) backgroundObjects.push(new BackgroundObject());
-
     enemy = new EnemyShip(width, height / 3, enemyImg);
-
-    document.getElementById('restartBtn').addEventListener('click', restartGame);
+    for (let i = 0; i < 100; i++) {
+        backgroundObjects.push(new BackgroundObject());
+    }
+    document.getElementById('restartBtn').onclick = restartGame;
 }
 
 function draw() {
     background(0);
 
-    backgroundObjects.forEach(obj => { obj.update(); obj.show(); });
+    for (let i = 0; i < backgroundObjects.length; i++) {
+        backgroundObjects[i].update();
+        backgroundObjects[i].show();
+    }
 
     player.update();
     player.show();
 
-    if (frameCount % 90 === 0) obstacles.push(new Obstacle());
+    enemy.update();
+    enemy.show();
+
+    if (enemy.checkCollision(player)) {
+        gameOver();
+    }
+
+    if (frameCount % 90 == 0) {
+        obstacles.push(new Obstacle());
+    }
 
     for (let i = obstacles.length - 1; i >= 0; i--) {
         obstacles[i].update();
         obstacles[i].show();
 
-        if (obstacles[i].hits(player)) gameOver();
+        if (obstacles[i].hits(player)) {
+            gameOver();
+        }
 
         if (obstacles[i].offscreen()) {
             obstacles.splice(i, 1);
-            score++;
-            meteorCount++;
+            score = score + 1;
+            meteorCount = meteorCount + 1;
             document.getElementById('score').innerText = score;
 
-            // spawn enemy po cca 10 meteorů
-            if (meteorCount % 10 === 0 && random() < 0.7) {
-                enemy = new EnemyShip(width, random(height/4, 3*height/4), enemyImg);
-            }
-
-            // postupné zrychlování
-            if (score % 10 === 0) {
-                obstacles.forEach(obs => obs.speed += 0.5);
-                enemy.speedX += 0.5;
-                enemy.speedY += 0.2;
-                enemy.lasers.forEach(l => l.speed += 0.2);
+            if (meteorCount % 10 == 0) {
+                if (random(1) < 0.7) {
+                    enemy = new EnemyShip(width, random(50, height - 50), enemyImg);
+                }
+                for (let j = 0; j < obstacles.length; j++) {
+                    obstacles[j].speed = obstacles[j].speed + 0.5;
+                }
             }
         }
     }
-
-    enemy.update();
-    enemy.show();
-
-    if (enemy.checkCollision(player)) gameOver();
 }
-
 function keyPressed() {
-    if (key === ' ' || key === 'Spacebar') gravity *= -1;
-}
-
-function windowResized() {
-    const container = document.querySelector('.container');
-    const topOffset = container ? container.offsetHeight + 20 : 80;
-    resizeCanvas(windowWidth, windowHeight - topOffset);
+    if (key == ' ') {
+        gravity = gravity * -1;
+    }
 }
 
 function restartGame() {
@@ -93,7 +88,9 @@ function restartGame() {
 
 function gameOver() {
     noLoop();
-    if (score > bestScore) bestScore = score;
+    if (score > bestScore) {
+        bestScore = score;
+    }
     document.getElementById('bestScore').innerText = bestScore;
     document.getElementById('score').innerText = "Game Over! Skóre: " + score;
 }
