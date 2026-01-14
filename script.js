@@ -53,9 +53,9 @@ function draw() {
       }
       if (score % 10 == 0) {
         for (let j = 0; j < obstacles.length; j++) {
-          obstacles[j].speed = obstacles[j].speed + 0.5;
+          obstacles[j].speed = obstacles[j].speed + 1;
         }
-        enemy.speedX = enemy.speedX + 0.5;
+        enemy.speedX = enemy.speedX + 1;
       }
     }
   }
@@ -91,3 +91,4 @@ function gameOver() {
   document.getElementById('bestScore').innerText = bestScore;
   document.getElementById('score').innerText = "Game Over! Skóre: " + score;
 }
+
