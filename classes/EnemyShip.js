@@ -37,6 +37,7 @@ class EnemyShip {
     fill(255, 0, 0);
     for (let i = 0; i < this.lasers.length; i++) {
       let l = this.lasers[i];
+      rectMode (CENTER);
       rect(l.x, l.y, 20, 5);
     }
   }
@@ -56,3 +57,4 @@ class EnemyShip {
     return false;
   }
 }
+
