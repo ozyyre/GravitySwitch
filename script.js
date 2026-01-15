@@ -3,8 +3,10 @@ let enemy;
 let gravity = 0.5;
 let score = 0;
 let bestScore = 0;
+
 let obstacles = [];
 let backgroundObjects = [];
+
 let rocketImg;
 let meteorImg;
 let enemyImg;
@@ -18,6 +20,7 @@ function preload() {
 function setup() {
   const container = document.querySelector('.container');
   const topOffset = container ? container.offsetHeight + 20 : 80;
+
   const cnv = createCanvas(windowWidth, windowHeight - topOffset);
   cnv.style('display', 'block');
 
@@ -86,10 +89,7 @@ function draw() {
 }
 
 function keyPressed() {
-  // zabráníme mačkání mezerníku, když má fokus button
-  if (document.activeElement.tagName === 'BUTTON') return;
-
-  if (keyCode === 32) { // mezerník
+  if (keyCode === 32) {
     gravity *= -1;
   }
 }
@@ -110,9 +110,6 @@ function restartGame() {
 
   const scoreEl = document.getElementById('score');
   if (scoreEl) scoreEl.innerText = score;
-
-  const restartBtn = document.getElementById('restartBtn');
-  if (restartBtn) restartBtn.blur(); // 🔥 FIX FOKUSU
 
   loop();
 }
