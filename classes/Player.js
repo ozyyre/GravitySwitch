@@ -9,7 +9,10 @@ class Player {
     update() {
         this.vel += gravity;
         this.y = constrain(this.y + this.vel, this.size / 2, height - this.size / 2);
-        if (this.y === this.size/2 || this.y === height - this.size/2) this.vel = 0;
+        if(this.y <= this.size / 2 || this.y >= height - this.size / 2){
+            this.vel *= -0.3;
+        }
+       // if (this.y === this.size/2 || this.y === height - this.size/2) this.vel = 0;
     }
 
     show() {
@@ -25,6 +28,7 @@ class Player {
         return { x: this.x, y: this.y, w: this.size, h: this.size * 0.8 };
     }
 }
+
 
 
 
