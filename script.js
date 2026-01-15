@@ -27,11 +27,6 @@ function setup() {
   document.getElementById('restartBtn').onclick = restartGame;
 }
 function draw() {
-  background(0);
-  for (let i = 0; i < backgroundObjects.length; i++) {
-    backgroundObjects[i].update();
-    backgroundObjects[i].show();
-  }
   player.update();
   player.show();
   if (frameCount % 90 == 0) {
@@ -91,4 +86,5 @@ function gameOver() {
   document.getElementById('bestScore').innerText = bestScore;
   document.getElementById('score').innerText = "Game Over! Skóre: " + score;
 }
+
 
