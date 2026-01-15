@@ -15,7 +15,7 @@ class Player {
     show() {
         push();
         translate(this.x, this.y);
-        rotate(HALF_PI); // raketa směřuje doprava
+        rotate(HALF_PI); 
         imageMode(CENTER);
         image(rocketImg, 0, 0, this.size, this.size);
         pop();
@@ -25,3 +25,4 @@ class Player {
         return { x: this.x, y: this.y, w: this.size, h: this.size * 0.8 };
     }
 }
+
