@@ -25,7 +25,7 @@ function setup() {
   for (let i = 0; i < 100; i++) {
     backgroundObjects.push(new BackgroundObject());
   }
-  const restartBtn = document.getElementById('restartBtn').blur();
+  const restartBtn = document.getElementById('restartBtn');
   if (restartBtn) restartBtn.onclick = restartGame;
 }
 function draw() {
@@ -98,4 +98,5 @@ function gameOver() {
   if (bestEl) bestEl.innerText = bestScore;
   if (scoreEl) scoreEl.innerText = `Game Over! Skóre: ${score}`;
 }
+
 
