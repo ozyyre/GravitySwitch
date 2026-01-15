@@ -15,47 +15,50 @@ function preload() {
   enemyImg = loadImage('images/enemyShip.png');
 }
 function setup() {
-  let container = document.querySelector('.container');
-  let topOffset = container ? container.offsetHeight + 20 : 80;
-  let cnv = createCanvas(windowWidth, windowHeight - topOffset);
+  const container = document.querySelector('.container');
+  const topOffset = container ? container.offsetHeight + 20 : 80;
+  const cnv = createCanvas(windowWidth, windowHeight - topOffset);
   cnv.style('display', 'block');
   player = new Player();
   enemy = new EnemyShip(width + 1000, height / 2, enemyImg);
+  backgroundObjects = [];
   for (let i = 0; i < 100; i++) {
     backgroundObjects.push(new BackgroundObject());
   }
-  document.getElementById('restartBtn').onclick = restartGame;
+  const restartBtn = document.getElementById('restartBtn');
+  if (restartBtn) restartBtn.onclick = restartGame;
 }
 function draw() {
   background(0);
-  for (let i = 0; i < backgroundObjects.length; i++) {
-    backgroundObjects[i].update();
-    backgroundObjects[i].show();
+  for (const bg of backgroundObjects) {
+    bg.update();
+    bg.show();
   }
   player.update();
   player.show();
-  if (frameCount % 90 == 0) {
+  if (frameCount % 90 === 0) {
     obstacles.push(new Obstacle());
   }
   for (let i = obstacles.length - 1; i >= 0; i--) {
-    obstacles[i].update();
-    obstacles[i].show();
-    if (obstacles[i].hits(player)) {
+    const obs = obstacles[i];
+    obs.update();
+    obs.show();
+    if (obs.hits(player)) {
       gameOver();
+      return;
     }
-    if (obstacles[i].offscreen()) {
+    if (obs.offscreen()) {
       obstacles.splice(i, 1);
-      score = score + 1;
-      document.getElementById('score').innerText = score;
-      if (enemy.x < -100 && random(1) < 0.15) {
+      score++;
+      const scoreEl = document.getElementById('score');
+      if (scoreEl) scoreEl.innerText = score;
+      if (enemy.x < -100 && random() < 0.15) {
         enemy.x = width + 100;
-        enemy.y = random(height / 4, 3 * height / 4);
+        enemy.y = random(height * 0.25, height * 0.75);
       }
-      if (score % 10 == 0) {
-        for (let j = 0; j < obstacles.length; j++) {
-          obstacles[j].speed = obstacles[j].speed + 1;
-        }
-        enemy.speedX = enemy.speedX + 1;
+      if (score % 10 === 0) {
+        obstacles.forEach(o => o.speed += 1);
+        enemy.speedX += 1;
       }
     }
   }
@@ -66,21 +69,23 @@ function draw() {
   }
 }
 function keyPressed() {
-  if (key == ' ' || key == 'Spacebar') {
-    gravity = gravity * -1;
+  if (keyCode === 32) {
+    gravity *= -1;
   }
 }
 function windowResized() {
-  let container = document.querySelector('.container');
-  let topOffset = container ? container.offsetHeight + 20 : 80;
+  const container = document.querySelector('.container');
+  const topOffset = container ? container.offsetHeight + 20 : 80;
   resizeCanvas(windowWidth, windowHeight - topOffset);
 }
 function restartGame() {
   score = 0;
+  gravity = 0.5;
   obstacles = [];
   player = new Player();
   enemy = new EnemyShip(width + 1000, height / 2, enemyImg);
-  document.getElementById('score').innerText = score;
+  const scoreEl = document.getElementById('score');
+  if (scoreEl) scoreEl.innerText = score;
   loop();
 }
 function gameOver() {
@@ -88,10 +93,8 @@ function gameOver() {
   if (score > bestScore) {
     bestScore = score;
   }
-  document.getElementById('bestScore').innerText = bestScore;
-  document.getElementById('score').innerText = "Game Over! Skóre: " + score;
+  const bestEl = document.getElementById('bestScore');
+  const scoreEl = document.getElementById('score');
+  if (bestEl) bestEl.innerText = bestScore;
+  if (scoreEl) scoreEl.innerText = `Game Over! Skóre: ${score}`;
 }
-
-
-
-
