@@ -13,8 +13,17 @@ function preload() {
 
 function setup() {
   createCanvas(1240, 620);
+  document.getElementById('restartBtn').onclick = () => {
+    score = 0;
+    obstacles = [];
+    gravity = 0.5;
+    player = new Player();
+    enemy = new EnemyShip(width + 1000, height / 2, enemyImg);
+    loop(); 
+  };
   player = new Player();
   enemy = new EnemyShip(width + 1000, height / 2, enemyImg);
+  
   for (let i = 0; i < 50; i++) {
     stars.push(new BackgroundObject());
   }
@@ -50,3 +59,4 @@ function draw() {
 function keyPressed() {
   if (key === ' ' || keyCode === 32) gravity *= -1;
 }
+
