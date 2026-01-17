@@ -25,4 +25,3 @@ class Player {
         return { x: this.x, y: this.y, w: this.size, h: this.size * 0.8 };
     }
 }
-
