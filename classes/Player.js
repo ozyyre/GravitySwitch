@@ -5,13 +5,13 @@ class Player {
         this.y = height / 2;
         this.vel = 0;
     }
-
     update() {
-        this.vel += gravity;
-        this.y = constrain(this.y + this.vel, this.size / 2, height - this.size / 2);
-        if(this.y <= this.size / 2 || this.y >= height - this.size / 2){
-            this.vel *= -0.2;
-        }
+    this.vel += gravity;
+    this.y = constrain(this.y + this.vel, 0, height - this.h);
+    if (this.y <= 0 || this.y >= height - this.h) {
+        this.vel *= -0.2; 
+    }
+}
     }
 
     show() {
@@ -27,6 +27,7 @@ class Player {
         return { x: this.x, y: this.y, w: this.size, h: this.size * 0.8 };
     }
 }
+
 
 
 
