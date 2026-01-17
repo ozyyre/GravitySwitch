@@ -1,4 +1,5 @@
-let player, enemy, rocketImg, meteorImg, enemyImg;
+let player, enemy;
+let rocketImg, meteorImg, enemyImg; // Obrázky
 let gravity = 0.5;
 let score = 0;
 let obstacles = [];
@@ -11,8 +12,8 @@ function preload() {
 
 function setup() {
   createCanvas(1240, 620);
-  // Vyvolání tříd (recepty jsou v jiných souborech)
   player = new Player();
+  // Tady pozor, pokud tvoje EnemyShip classa vyžaduje jiné parametry, uprav je:
   enemy = new EnemyShip(width + 1000, height / 2, enemyImg);
 }
 
@@ -32,6 +33,7 @@ function draw() {
 
     if (obstacles[i].hits(player)) {
       noLoop();
+      console.log("Game Over - Meteor");
     }
 
     if (obstacles[i].offscreen()) {
@@ -47,11 +49,12 @@ function draw() {
 
   if (enemy.checkCollision(player)) {
     noLoop();
+    console.log("Game Over - Enemy");
   }
 }
 
 function keyPressed() {
-  if (key === ' ') {
+  if (key === ' ' || keyCode === 32) {
     gravity *= -1;
   }
 }
