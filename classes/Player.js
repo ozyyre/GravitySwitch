@@ -4,17 +4,17 @@ class Player {
     this.y = height / 2;
     this.w = 50;
     this.h = 50;
-    this.vel = 0; // Používáme tvůj název 'vel'
+    this.vel = 0;
   }
 
   update() {
     this.vel += gravity;
     this.y += this.vel;
     
-    // Ochrana proti vypadnutí (constrain)
+    // Omezení pohybu
     this.y = constrain(this.y, 0, height - this.h);
     
-    // Jemný odraz, jak jsi chtěl
+    // Odraz
     if (this.y <= 0 || this.y >= height - this.h) {
       this.vel *= -0.2;
     }
@@ -25,6 +25,11 @@ class Player {
   }
 
   getRect() {
-    return { x: this.x, y: this.y, w: this.w, h: this.h };
+    return {
+      x: this.x,
+      y: this.y,
+      w: this.w,
+      h: this.h
+    };
   }
-}
+} // <--- Tahle závorka tady musí být jako úplně poslední
